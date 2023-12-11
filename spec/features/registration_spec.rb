@@ -7,7 +7,7 @@ RSpec.describe "User Registration" do
     fill_in :user_name, with: 'User One'
     fill_in :user_email, with:'user1@example.com'
     fill_in :user_password, with: "1234"
-    fill_in :user_confirm_password, with: "1234"
+    fill_in :user_password_confirmation, with: "1234"
     click_button 'Create New User'
 
     expect(current_path).to eq(user_path(User.last.id))
@@ -22,7 +22,7 @@ RSpec.describe "User Registration" do
     fill_in :user_name, with: 'User Two'
     fill_in :user_email, with:'notunique@example.com'
     fill_in :user_password, with: "1234"
-    fill_in :user_confirm_password, with: "1234"
+    fill_in :user_password_confirmation, with: "1234"
     click_button 'Create New User'
 
     expect(current_path).to eq(register_path)
@@ -36,7 +36,7 @@ RSpec.describe "User Registration" do
       fill_in :user_name, with: "Janet Love"
       fill_in :user_email, with: "janetlovescooking@aol.com"
       fill_in :user_password, with: "1234"
-      fill_in :user_confirm_password, with: "1234"
+      fill_in :user_password_confirmation, with: "1234"
       click_button "Create New User"
 
       user = User.last
@@ -61,7 +61,7 @@ RSpec.describe "User Registration" do
     
         fill_in :user_name, with: "Janet Love"
         fill_in :user_password, with: "1234"
-        fill_in :user_confirm_password, with: "1234"
+        fill_in :user_password_confirmation, with: "1234"
         click_button "Create New User"
 
         expect(page).to have_content("Email can't be blank")
@@ -74,7 +74,7 @@ RSpec.describe "User Registration" do
         fill_in :user_name, with: "Janet Love"
         fill_in :user_email, with: "janetlovescooking@aol.com"
         fill_in :user_password, with: "1234"
-        fill_in :user_confirm_password, with: "2345"
+        fill_in :user_password_confirmation, with: "2345"
         click_button "Create New User"
 
         expect(page).to have_content("Error: Passwords do not match")
