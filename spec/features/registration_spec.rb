@@ -45,6 +45,17 @@ RSpec.describe "User Registration" do
     end
 
     describe "registration sad path" do
+      it "must have a password" do
+        visit '/register'
+    
+        fill_in :user_name, with: "Janet Love"
+        fill_in :user_email, with: "janetlovescooking@aol.com"
+        click_button "Create New User"
+
+        expect(page).to have_content("Password can't be blank")
+        expect(current_path).to eq(register_path)
+      end
+
       it "must have matching passwords" do
         visit '/register'
     
