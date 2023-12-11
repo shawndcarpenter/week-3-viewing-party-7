@@ -9,12 +9,12 @@ RSpec.describe "User Registration" do
 
     click_link("Log In")
 
-    expect(current_path).to eq("/login")
+    expect(current_path).to eq(login_path)
   end
 
   it "can log in a user" do
     @user1 = User.create(name: "User One", email: "user1@test.com", password: "1234")
-    visit "/login"
+    visit login_path
 
     expect(page).to have_content("Email")
     expect(page).to have_content("Password")
@@ -28,12 +28,25 @@ RSpec.describe "User Registration" do
   end
 
   describe "logging in sad path" do
-    it "must have correct credentials" do
+    it "must have correct password" do
       @user1 = User.create(name: "User One", email: "user1@test.com", password: "1234")
       visit "/login"
 
       fill_in :email, with: @user1.email
       fill_in :password, with: "2345"
+
+      click_button "Log In"
+
+      expect(current_path).to eq(login_path)
+      expect(page).to have_content("Incorrect Email or Password.")
+    end
+
+    it "must have correct email" do
+      @user1 = User.create(name: "User One", email: "user1@test.com", password: "1234")
+      visit "/login"
+
+      fill_in :email, with: "user2@test.com"
+      fill_in :password, with: "1234"
 
       click_button "Log In"
 

@@ -56,6 +56,18 @@ RSpec.describe "User Registration" do
         expect(current_path).to eq(register_path)
       end
 
+      it "must have an email" do
+        visit '/register'
+    
+        fill_in :user_name, with: "Janet Love"
+        fill_in :user_password, with: "1234"
+        fill_in :user_confirm_password, with: "1234"
+        click_button "Create New User"
+
+        expect(page).to have_content("Email can't be blank")
+        expect(current_path).to eq(register_path)
+      end
+
       it "must have matching passwords" do
         visit '/register'
     
