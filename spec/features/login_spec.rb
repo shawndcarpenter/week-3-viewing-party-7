@@ -13,7 +13,7 @@ RSpec.describe "User Registration" do
   end
 
   it "can log in a user" do
-    @user1 = User.create(name: "User One", email: "user1@test.com", password: "1234")
+    @user1 = User.create(name: "User One", email: "user1@test.com", password: "1234", password_confirmation: "1234")
     visit login_path
 
     expect(page).to have_content("Email")
@@ -21,7 +21,7 @@ RSpec.describe "User Registration" do
 
     fill_in :email, with: @user1.email
     fill_in :password, with: @user1.password
-
+    
     click_button "Log In"
 
     expect(current_path).to eq(user_path(@user1))

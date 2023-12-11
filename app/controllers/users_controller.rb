@@ -16,18 +16,15 @@ class UsersController <ApplicationController
       flash[:success] = "Welcome, #{user.name}!"
       redirect_to user_path(user)
     else
+      redirect_to login_path
       flash[:error] = "Incorrect Email or Password."
-      render :login_form
     end
   end
 
   def create 
-    user = User.create(name: params[:user][:name], email: params[:user][:email], password: params[:user][:password])
-    if password_matches?(params) && user.save
+    user = User.create(user_params)
+    if user.save
       redirect_to user_path(user)
-    elsif !password_matches?(params)
-      redirect_to register_path
-      flash[:alert] = "Error: Passwords do not match"
     else
       flash[:error] = user.errors.full_messages.to_sentence
       redirect_to register_path
