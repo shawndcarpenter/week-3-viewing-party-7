@@ -7,6 +7,20 @@ class UsersController <ApplicationController
     @user = User.find(params[:id])
   end 
 
+  def login_form
+  end
+
+  def login
+    user = User.find_by(email: params[:email])
+    if user.authenticate(params[:password])
+      flash[:success] = "Welcome, #{user.name}!"
+      redirect_to user_path(user)
+    else
+      flash[:error] = "Incorrect Email or Password."
+      render :login_form
+    end
+  end
+
   def create 
     if params[:user][:password] == params[:user][:confirm_password]   
       user = User.create(name: params[:user][:name], email: params[:user][:email], password: params[:user][:password])
