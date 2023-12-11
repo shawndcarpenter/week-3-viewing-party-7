@@ -8,18 +8,23 @@ class UsersController <ApplicationController
   end 
 
   def create 
-    user = User.create(user_params)
-    if user.save
-      redirect_to user_path(user)
-    else  
-      flash[:error] = user.errors.full_messages.to_sentence
+    if params[:user][:password] == params[:user][:confirm_password]   
+      user = User.create(name: params[:user][:name], email: params[:user][:email], password: params[:user][:password])
+      if user.save
+        redirect_to user_path(user)
+      else  
+        flash[:error] = user.errors.full_messages.to_sentence
+        redirect_to register_path
+      end 
+    else
       redirect_to register_path
-    end 
+      flash[:alert] = "Error: Passwords do not match"
+    end
   end 
 
   private 
 
   def user_params 
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:name, :email, :password, :confirm_password)
   end 
 end 
