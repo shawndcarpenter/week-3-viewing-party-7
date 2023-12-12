@@ -11,19 +11,26 @@ class UsersController <ApplicationController
   end
 
   def login
-    user = User.find_by(email: params[:email])
-    if user && user.authenticate(params[:password])
-      flash[:success] = "Welcome, #{user.name}!"
-      redirect_to user_path(user)
+    @user = User.find_by(email: params[:email])
+    if @user && @user.authenticate(params[:password])
+      session[:user_id] = @user.id
+      flash[:success] = "Welcome, #{@user.name}!"
+      redirect_to user_path(@user)
     else
       redirect_to login_path
       flash[:error] = "Incorrect Email or Password."
     end
   end
 
+  def logout
+    session[:user_id] = nil
+    redirect_to root_path
+  end
+
   def create 
     user = User.create(user_params)
     if user.save
+      session[:user_id] = user.id
       redirect_to user_path(user)
     else
       flash[:error] = user.errors.full_messages.to_sentence
