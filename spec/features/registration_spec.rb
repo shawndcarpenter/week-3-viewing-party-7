@@ -10,7 +10,7 @@ RSpec.describe "User Registration" do
     fill_in :user_password_confirmation, with: "1234"
     click_button 'Create New User'
 
-    expect(current_path).to eq(user_path(User.last.id))
+    expect(current_path).to eq(dashboard_path)
     expect(page).to have_content("User One's Dashboard")
   end 
 
@@ -41,7 +41,7 @@ RSpec.describe "User Registration" do
 
       user = User.last
 
-      expect(current_path).to eq(user_path(user))
+      expect(current_path).to eq(dashboard_path)
     end
 
     describe "registration sad path" do
