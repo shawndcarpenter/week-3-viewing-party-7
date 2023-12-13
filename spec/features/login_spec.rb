@@ -24,7 +24,7 @@ RSpec.describe "User Registration" do
     
     click_button "Log In"
 
-    expect(current_path).to eq(user_path(@user1))
+    expect(current_path).to eq(dashboard_path)
   end
 
   describe "logging in sad path" do

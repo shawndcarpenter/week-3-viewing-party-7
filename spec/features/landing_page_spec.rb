@@ -43,7 +43,7 @@ RSpec.describe 'Landing Page' do
     end
 
     it "will not let visitors view the dashboard" do
-      visit "/users/#{@user1.id}"
+      visit dashboard_path
 
       expect(current_path).to eq(root_path)
       expect(page).to have_content("You must be logged in or registered to access the dashboard.")

@@ -11,7 +11,7 @@ RSpec.describe "User Logout" do
       
       click_button "Log In"
   
-      expect(current_path).to eq(user_path(@user1))
+      expect(current_path).to eq(dashboard_path)
   
       visit root_path
     end
