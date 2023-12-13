@@ -22,15 +22,6 @@ RSpec.describe 'Landing Page' do
     expect(current_path).to eq(root_path)
   end 
 
-  xit 'lists out existing users' do 
-    expect(page).to have_content('Existing Users:')
-
-    within('.existing-users') do 
-      expect(page).to have_content(@user1.email)
-      expect(page).to have_content(@user2.email)
-    end     
-  end 
-
   describe "Authorization Challenge" do
     it "does not show existing users as a visitor" do
       expect(page).to_not have_content(@user1.email)
