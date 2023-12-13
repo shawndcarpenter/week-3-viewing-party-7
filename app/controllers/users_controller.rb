@@ -1,11 +1,13 @@
-class UsersController <ApplicationController 
+class UsersController <ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_response
+
   def new 
     @user = User.new()
   end 
 
   def show 
-    @user = User.find(params[:id])
-    unless @user == current_user?
+    @user = User.find(session[:user_id])
+    unless @user && @user == current_user?
       redirect_to root_path
       flash[:error] = "You must be logged in or registered to access the dashboard."
     end
@@ -19,7 +21,7 @@ class UsersController <ApplicationController
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
       flash[:success] = "Welcome, #{@user.name}!"
-      redirect_to user_path(@user)
+      redirect_to dashboard_path
     else
       redirect_to login_path
       flash[:error] = "Incorrect Email or Password."
@@ -35,7 +37,7 @@ class UsersController <ApplicationController
     user = User.create(user_params)
     if user.save
       session[:user_id] = user.id
-      redirect_to user_path(user)
+      redirect_to dashboard_path
     else
       flash[:error] = user.errors.full_messages.to_sentence
       redirect_to register_path
@@ -43,6 +45,10 @@ class UsersController <ApplicationController
   end 
 
   private 
+  def not_found_response
+    redirect_to root_path
+    flash[:error] = "You must be logged in or registered to access the dashboard."
+  end
 
   def user_params 
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
