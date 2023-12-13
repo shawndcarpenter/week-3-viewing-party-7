@@ -36,7 +36,7 @@ RSpec.describe 'Movies Index Page' do
   end 
 
   describe "Authorization Challenge" do
-    it "must be logged in to access the movie show page" do
+    it "must be logged in to create a viewing party" do
       movie_1 = Movie.first
 
       visit "/movies/#{movie_1.id}"
